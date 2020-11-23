@@ -15,7 +15,8 @@ namespace SampleApp.ViewModels
     {
         public ICommand TodayCommand => new Command(() => { Year = DateTime.Today.Year; Month = DateTime.Today.Month; SelectedDate = DateTime.Today;});
         public ICommand EventSelectedCommand => new Command(async (item) => await ExecuteEventSelectedCommand(item));
-        
+        private CultureInfo _culture = CultureInfo.CurrentCulture;
+
         public SimplePageViewModel() : base()
         {
             // testing all kinds of adding events

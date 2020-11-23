@@ -50,6 +50,15 @@ namespace Xamarin.Plugin.Calendar.Controls
             set => SetValue(CultureProperty, value);
         }
 
+        public static readonly BindableProperty MarkDatesProperty =
+        BindableProperty.Create(nameof(MarkDates), typeof(List<DateTime>), typeof(MonthDaysView), new List<DateTime>());
+
+        public List<DateTime> MarkDates
+        {
+            get => (List<DateTime>)GetValue(MarkDatesProperty);
+            set => SetValue(MarkDatesProperty, value);
+        }
+
         /// <summary> Bindable property for Events </summary>
         public static readonly BindableProperty EventsProperty =
           BindableProperty.Create(nameof(Events), typeof(EventCollection), typeof(MonthDaysView), new EventCollection());
@@ -382,10 +391,18 @@ namespace Xamarin.Plugin.Calendar.Controls
         private void UpdateDayTitles()
         {
             var dayNumber = (int)Culture.DateTimeFormat.FirstDayOfWeek;
+            if (Culture.Name.Equals("zh-CN"))
+            {
+                dayNumber = (int)DayOfWeek.Monday;
+            }
 
             foreach (var dayLabel in daysTitleControl.Children.OfType<Label>())
             {
                 dayLabel.Text = Culture.DateTimeFormat.AbbreviatedDayNames[dayNumber].ToUpper().Substring(0, (int)DaysTitleMaximumLength);
+                if (Culture.Name.Equals("zh-CN"))
+                {
+                    dayLabel.Text = dayLabel.Text.Substring(1);
+                }
                 dayNumber = (dayNumber + 1) % 7;
             }
         }
@@ -500,6 +517,10 @@ namespace Xamarin.Plugin.Calendar.Controls
         {
             var monthStart = new DateTime(DisplayedMonthYear.Year, DisplayedMonthYear.Month, 1);
             var addDays = ((int)Culture.DateTimeFormat.FirstDayOfWeek) - (int)monthStart.DayOfWeek;
+            if (Culture.Name.Equals("zh-CN"))
+            {
+                addDays = ((int)DayOfWeek.Monday) - (int)monthStart.DayOfWeek;
+            }
 
             if (addDays > 0)
                 addDays -= 7;
@@ -518,7 +539,7 @@ namespace Xamarin.Plugin.Calendar.Controls
                 dayModel.IsThisMonth = currentDate.Month == DisplayedMonthYear.Month;
                 dayModel.OtherMonthIsVisible = OtherMonthDayIsVisible;
                 dayModel.IsSelected = currentDate == SelectedDate.Date;
-                dayModel.HasEvents = Events.ContainsKey(currentDate);
+                dayModel.HasEvents = Events.ContainsKey(currentDate)||(MarkDates.Find(x=>x.Date==currentDate.Date)!=DateTime.MinValue);
                 dayModel.IsDisabled = currentDate < MinimumDate || currentDate > MaximumDate;
 
                 AssignIndicatorColors(ref dayModel);
