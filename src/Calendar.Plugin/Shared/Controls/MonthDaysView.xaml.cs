@@ -315,6 +315,24 @@ namespace Xamarin.Plugin.Calendar.Controls
             get => (bool)GetValue(AnimateCalendarProperty);
             set { SetValue(AnimateCalendarProperty, value); }
         }
+
+        public static readonly BindableProperty MonthProperty =
+            BindableProperty.Create(nameof(Month), typeof(int), typeof(MonthDaysView), DateTime.Today.Month); 
+
+        public int Month
+        {
+            get => (int)GetValue(MonthProperty);
+            set { SetValue(MonthProperty, value); }
+        }
+
+        public static readonly BindableProperty YearProperty = 
+            BindableProperty.Create(nameof(Year), typeof(int), typeof(MonthDaysView), DateTime.Today.Year);
+
+        public int Year
+        {
+            get => (int)GetValue(YearProperty);
+            set { SetValue(YearProperty, value); }
+        }
         #endregion
 
         private readonly Dictionary<string, bool> _propertyChangedNotificationSupressions = new Dictionary<string, bool>();

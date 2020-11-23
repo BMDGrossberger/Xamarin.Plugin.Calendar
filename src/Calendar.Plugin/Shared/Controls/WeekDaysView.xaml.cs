@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Windows.Input;
 
 namespace Xamarin.Plugin.Calendar.Controls
 {
@@ -213,6 +214,116 @@ namespace Xamarin.Plugin.Calendar.Controls
         {
             get => (Style)GetValue(DaysTitleLabelStyleProperty);
             set => SetValue(DaysTitleLabelStyleProperty, value);
+        }
+
+        public static readonly BindableProperty DaysTitleMaximumLengthProperty =
+            BindableProperty.Create(nameof(DaysTitleMaximumLength), typeof(DaysTitleMaxLength), typeof(Calendar), DaysTitleMaxLength.ThreeChars, propertyChanged: T);
+
+        private static void T(BindableObject bindable, object oldValue, object newValue)
+        {
+            if (bindable is Calendar vm)
+                vm.DaysTitleMaximumLength = (DaysTitleMaxLength)newValue;
+        }
+
+        public DaysTitleMaxLength DaysTitleMaximumLength
+        {
+            get => (DaysTitleMaxLength)GetValue(DaysTitleMaximumLengthProperty);
+            set => SetValue(DaysTitleMaximumLengthProperty, value);
+        }
+
+        /// <summary> Bindable property for DisabledDayColor </summary>
+        public static readonly BindableProperty DisabledDayColorProperty =
+          BindableProperty.Create(nameof(DisabledDayColor), typeof(Color), typeof(Calendar), Color.FromHex("#ECECEC"));
+
+        /// <summary> Color for days which are out of MinimumDate - MaximumDate range </summary>
+        public Color DisabledDayColor
+        {
+            get => (Color)GetValue(DisabledDayColorProperty);
+            set => SetValue(DisabledDayColorProperty, value);
+        }
+
+        public static readonly BindableProperty EventIndicatorSelectedTextColorProperty =
+            BindableProperty.Create(nameof(EventIndicatorSelectedTextColor), typeof(Color), typeof(Calendar), Color.Default);
+
+        public Color EventIndicatorSelectedTextColor
+        {
+            get => (Color)GetValue(EventIndicatorSelectedTextColorProperty);
+            set => SetValue(EventIndicatorSelectedTextColorProperty, value);
+        }
+
+        public static readonly BindableProperty EventIndicatorTextColorProperty =
+            BindableProperty.Create(nameof(EventIndicatorTextColor), typeof(Color), typeof(Calendar), Color.Default);
+
+        public Color EventIndicatorTextColor
+        {
+            get => (Color)GetValue(EventIndicatorTextColorProperty);
+            set => SetValue(EventIndicatorTextColorProperty, value);
+        }
+
+        /// <summary> Bindable property for MaximumDate </summary>
+        public static readonly BindableProperty MaximumDateProperty =
+          BindableProperty.Create(nameof(MaximumDate), typeof(DateTime), typeof(Calendar), DateTime.MaxValue);
+
+        /// <summary> Maximum date which can be selected </summary>
+        public DateTime MaximumDate
+        {
+            get => (DateTime)GetValue(MaximumDateProperty);
+            set => SetValue(MaximumDateProperty, value);
+        }
+
+        /// <summary> Bindable property for MinimumDate </summary>
+        public static readonly BindableProperty MinimumDateProperty =
+          BindableProperty.Create(nameof(MinimumDate), typeof(DateTime), typeof(Calendar), DateTime.MinValue);
+
+        /// <summary> Minimum date which can be selected </summary>
+        public DateTime MinimumDate
+        {
+            get => (DateTime)GetValue(MinimumDateProperty);
+            set => SetValue(MinimumDateProperty, value);
+        }
+
+        public static readonly BindableProperty EventIndicatorTypeProperty =
+            BindableProperty.Create(nameof(EventIndicatorType), typeof(EventIndicatorType), typeof(MonthDaysView), EventIndicatorType.BottomDot);
+
+        public EventIndicatorType EventIndicatorType
+        {
+            get => (EventIndicatorType)GetValue(EventIndicatorTypeProperty);
+            set => SetValue(EventIndicatorTypeProperty, value);
+        }
+
+        public static readonly BindableProperty OtherMonthDayIsVisibleProperty =
+            BindableProperty.Create(nameof(OtherMonthDayIsVisible), typeof(bool), typeof(Calendar), true);
+
+        public bool OtherMonthDayIsVisible
+        {
+            get => (bool)GetValue(OtherMonthDayIsVisibleProperty);
+            set => SetValue(OtherMonthDayIsVisibleProperty, value);
+        }
+
+        public static readonly BindableProperty DisplayedMonthYearProperty =
+            BindableProperty.Create(nameof(DisplayedMonthYear), typeof(DateTime), typeof(Calendar), DateTime.Today, BindingMode.TwoWay);
+
+        public DateTime DisplayedMonthYear
+        {
+            get => (DateTime)GetValue(DisplayedMonthYearProperty);
+            set => SetValue(DisplayedMonthYearProperty, value);
+        }
+
+
+
+        /// <summary>
+        /// Bindable property for DayTapped
+        /// </summary>
+        public static readonly BindableProperty DayTappedCommandProperty =
+            BindableProperty.Create(nameof(DayTappedCommand), typeof(ICommand), typeof(Calendar), null);
+
+        /// <summary>
+        /// Action to run after a day has been tapped.
+        /// </summary>
+        public ICommand DayTappedCommand
+        {
+            get => (ICommand)GetValue(DayTappedCommandProperty);
+            set => SetValue(DayTappedCommandProperty, value);
         }
 
         #endregion

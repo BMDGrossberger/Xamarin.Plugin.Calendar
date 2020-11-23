@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 using SampleApp.Model;
+using System.Globalization;
 
 namespace SampleApp.ViewModels
 {
