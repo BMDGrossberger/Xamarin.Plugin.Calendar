@@ -528,7 +528,7 @@ namespace Xamarin.Plugin.Calendar.Controls
         {
             int weeknow = Convert.ToInt32(datetime.DayOfWeek);
             int dayDiff = 0;
-            if (Culture.DateTimeFormat.FirstDayOfWeek == DayOfWeek.Sunday && !Culture.Name.Equals("zh-CN"))
+            if (Culture.DateTimeFormat.FirstDayOfWeek == DayOfWeek.Sunday && !Culture.Name.Equals("de-AT"))
             {
                 //星期天为第一天
                 dayDiff = (-1) * weeknow;
@@ -552,7 +552,7 @@ namespace Xamarin.Plugin.Calendar.Controls
             DateTime weekStart = GetWeekFirstDay(startDate);
 
             var addDays = ((int)Culture.DateTimeFormat.FirstDayOfWeek) - (int)weekStart.DayOfWeek;
-            if (Culture.Name.Equals("zh-CN"))
+            if (Culture.Name.Equals("de-AT"))
             {
                 addDays = ((int)DayOfWeek.Monday) - (int)weekStart.DayOfWeek;
             }
