@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Windows.Input;
+using Xamarin.Plugin.Calendar.Interfaces;
 
 namespace Xamarin.Plugin.Calendar.Controls
 {
@@ -372,6 +373,8 @@ namespace Xamarin.Plugin.Calendar.Controls
                 case nameof(Events):
                 case nameof(Week):
                 case nameof(WeekStartDate):
+                case nameof(MaximumDate):
+                case nameof(MinimumDate):
                     UpdateDays();
                     break;
 
@@ -438,6 +441,8 @@ namespace Xamarin.Plugin.Calendar.Controls
                 dayModel.EventIndicatorSelectedColor = EventIndicatorSelectedColor;
                 dayModel.TodayOutlineColor = TodayOutlineColor;
                 dayModel.TodayFillColor = TodayFillColor;
+
+                //AssignIndicatorColors(ref dayModel);
             }
         }
 
@@ -563,6 +568,7 @@ namespace Xamarin.Plugin.Calendar.Controls
                 dayModel.IsThisMonth = currentDate.Month == Month;
                 dayModel.IsSelected = currentDate == SelectedDate.Date;
                 dayModel.HasEvents = Events.ContainsKey(currentDate) || (MarkDates.Find(x => x.Date == currentDate.Date) != DateTime.MinValue);
+                dayModel.IsDisabled = currentDate < MinimumDate || currentDate > MaximumDate;
 
                 if (dayModel.IsSelected)
                     _selectedDay = dayModel;
@@ -602,6 +608,27 @@ namespace Xamarin.Plugin.Calendar.Controls
             propertyChangeAction();
 
             _propertyChangedNotificationSupressions[propertyName] = false;
+        }
+
+        private void AssignIndicatorColors(ref DayModel dayModel)
+        {
+            Color? eventIndicatorColor = EventIndicatorColor;
+            Color? eventIndicatorSelectedColor = EventIndicatorSelectedColor;
+            Color? eventIndicatorTextColor = EventIndicatorTextColor;
+            Color? eventIndicatorSelectedTextColor = EventIndicatorSelectedTextColor;
+
+            if (Events.TryGetValue(dayModel.Date, out var dayEventCollection) && dayEventCollection is IPersonalizableDayEvent personalizableDay)
+            {
+                eventIndicatorColor = personalizableDay?.EventIndicatorColor;
+                eventIndicatorSelectedColor = personalizableDay?.EventIndicatorSelectedColor ?? personalizableDay?.EventIndicatorColor;
+                eventIndicatorTextColor = personalizableDay?.EventIndicatorTextColor;
+                eventIndicatorSelectedTextColor = personalizableDay?.EventIndicatorSelectedTextColor ?? personalizableDay?.EventIndicatorTextColor;
+            }
+
+            dayModel.EventIndicatorColor = eventIndicatorColor ?? EventIndicatorColor;
+            dayModel.EventIndicatorSelectedColor = eventIndicatorSelectedColor ?? EventIndicatorSelectedColor;
+            dayModel.EventIndicatorTextColor = eventIndicatorTextColor ?? EventIndicatorTextColor;
+            dayModel.EventIndicatorSelectedTextColor = eventIndicatorSelectedTextColor ?? EventIndicatorSelectedTextColor;
         }
     }
 }

@@ -24,7 +24,13 @@
         Month="{Binding Month}"
         SelectedDate="{Binding SelectedDate}"
         VerticalOptions="FillAndExpand"
-        Year="{Binding Year}">
+        Year="{Binding Year}"
+        SelectedDayTextColor="Blue"
+        TodayOutlineColor="Blue"
+        TodayFillColor="Blue"
+        FooterSectionVisible="True"
+        ShowYearPicker="False"
+        ShowMonthPicker="True">
 
         <plugin:Calendar.EventTemplate>
             <DataTemplate>

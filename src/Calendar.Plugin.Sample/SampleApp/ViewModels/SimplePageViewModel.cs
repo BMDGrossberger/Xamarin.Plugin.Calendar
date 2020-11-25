@@ -103,7 +103,7 @@ namespace SampleApp.ViewModels
             set => SetProperty(ref _minimumDate, value);
         }
 
-        private DateTime _maximumDate = DateTime.Today.AddMonths(5);
+        private DateTime _maximumDate = DateTime.Today;
         public DateTime MaximumDate
         {
             get => _maximumDate;
