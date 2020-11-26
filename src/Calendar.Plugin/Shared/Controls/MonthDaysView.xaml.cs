@@ -409,15 +409,15 @@ namespace Xamarin.Plugin.Calendar.Controls
         private void UpdateDayTitles()
         {
             var dayNumber = (int)Culture.DateTimeFormat.FirstDayOfWeek;
-            if (Culture.Name.Equals("de-AT"))
+            if (Culture.Name.Equals("zh-CN"))
             {
                 dayNumber = (int)DayOfWeek.Monday;
             }
 
             foreach (var dayLabel in daysTitleControl.Children.OfType<Label>())
             {
-                dayLabel.Text = Culture.DateTimeFormat.AbbreviatedDayNames[dayNumber].ToUpper().Substring(0, (int)DaysTitleMaximumLength);
-                if (Culture.Name.Equals("de-AT"))
+                dayLabel.Text = Culture.DateTimeFormat.AbbreviatedDayNames[dayNumber].ToUpper(); /*.Substring(0, (int)DaysTitleMaximumLength);*/
+                if (Culture.Name.Equals("zh-CN"))
                 {
                     dayLabel.Text = dayLabel.Text.Substring(1);
                 }
@@ -535,7 +535,7 @@ namespace Xamarin.Plugin.Calendar.Controls
         {
             var monthStart = new DateTime(DisplayedMonthYear.Year, DisplayedMonthYear.Month, 1);
             var addDays = ((int)Culture.DateTimeFormat.FirstDayOfWeek) - (int)monthStart.DayOfWeek;
-            if (Culture.Name.Equals("de-AT"))
+            if (Culture.Name.Equals("zh-CN"))
             {
                 addDays = ((int)DayOfWeek.Monday) - (int)monthStart.DayOfWeek;
             }
