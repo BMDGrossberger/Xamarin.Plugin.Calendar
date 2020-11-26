@@ -25,9 +25,12 @@
         SelectedDate="{Binding SelectedDate}"
         VerticalOptions="FillAndExpand"
         Year="{Binding Year}"
-        SelectedDayTextColor="Blue"
+        SelectedDayTextColor="OrangeRed"
+        SelectedDateColor="OrangeRed"
         TodayOutlineColor="Blue"
         TodayFillColor="Blue"
+        EventIndicatorSelectedColor="Green"
+        EventIndicatorSelectedTextColor="Green"
         FooterSectionVisible="True"
         ShowYearPicker="False"
         ShowMonthPicker="True">

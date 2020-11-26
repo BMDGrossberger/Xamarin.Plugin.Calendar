@@ -399,7 +399,7 @@ namespace Xamarin.Plugin.Calendar.Controls
         private void UpdateDayTitles()
         {
             var dayNumber = (int)Culture.DateTimeFormat.FirstDayOfWeek;
-            if (Culture.Name.Equals("zh-CN"))
+            if (Culture.Name.Equals("de-AT"))
             {
                 dayNumber = (int)DayOfWeek.Monday;
             }
@@ -407,7 +407,7 @@ namespace Xamarin.Plugin.Calendar.Controls
             foreach (var dayLabel in daysTitleControl.Children.OfType<Label>())
             {
                 dayLabel.Text = Culture.DateTimeFormat.AbbreviatedDayNames[dayNumber].ToUpper();
-                if (Culture.Name.Equals("zh-CN"))
+                if (Culture.Name.Equals("de-AT"))
                 {
                     dayLabel.Text = dayLabel.Text.Substring(1);
                 }
@@ -442,7 +442,7 @@ namespace Xamarin.Plugin.Calendar.Controls
                 dayModel.TodayOutlineColor = TodayOutlineColor;
                 dayModel.TodayFillColor = TodayFillColor;
 
-                //AssignIndicatorColors(ref dayModel);
+                AssignIndicatorColors(ref dayModel);
             }
         }
 
@@ -569,6 +569,8 @@ namespace Xamarin.Plugin.Calendar.Controls
                 dayModel.IsSelected = currentDate == SelectedDate.Date;
                 dayModel.HasEvents = Events.ContainsKey(currentDate) || (MarkDates.Find(x => x.Date == currentDate.Date) != DateTime.MinValue);
                 dayModel.IsDisabled = currentDate < MinimumDate || currentDate > MaximumDate;
+
+                AssignIndicatorColors(ref dayModel);
 
                 if (dayModel.IsSelected)
                     _selectedDay = dayModel;
