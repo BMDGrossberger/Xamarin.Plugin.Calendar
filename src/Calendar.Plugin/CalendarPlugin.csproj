@@ -14,7 +14,7 @@
     <Owners>lilcodelab</Owners>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
-    <Version>1.0.0.0</Version>
+    <Version>1.0.0.1</Version>
     <Description>BMD customized version of Calender Plugin by lilcodelab for Xamarin.Forms</Description>
     <Summary>Customized calendar plugin for Xamarin.Forms.</Summary>
     <PackOnBuild>true</PackOnBuild>
@@ -48,16 +48,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="3.3.0.912540" />
     <Compile Include="Shared\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
   </ItemGroup>
 
-
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1687" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
   </ItemGroup>
 
   <ItemGroup>
