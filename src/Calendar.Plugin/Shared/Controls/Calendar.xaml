@@ -19,6 +19,7 @@
             x:Name="calendarContainer"
             HorizontalOptions="FillAndExpand"
             VerticalOptions="FillAndExpand">
+
             <controls:DataTemplateView BindingContext="{x:Reference calendar}" ItemTemplate="{Binding HeaderSectionTemplate}" />
 
             <controls:SwipeAwareContainer
@@ -26,10 +27,12 @@
                 SwipeDetectionDisabled="{Binding DisableSwipeDetection, Source={x:Reference calendar}}"
                 SwipedLeft="OnSwipedLeft"
                 SwipedRight="OnSwipedRight"
-                SwipedUp="OnSwipedUp">
+                SwipedUp="OnSwipedUp"
+                SwipedDown="OnSwipedDown">
                 <StackLayout>
                     <controls:MonthDaysView IsVisible="False"
                     x:Name="monthDaysView"
+                    DisplayedMonthYear="{Binding MonthYear, Source={x:Reference calendar}}"
                     MarkDates="{Binding MarkDates, Source={x:Reference calendar}}"
                     Month="{Binding Month, Source={x:Reference calendar}}"
                     Year="{Binding Year, Source={x:Reference calendar}}"
@@ -38,7 +41,9 @@
                     Culture="{Binding Culture, Source={x:Reference calendar}}"
                     SelectedDayBackgroundColor="{Binding SelectedDayBackgroundColor, Source={x:Reference calendar}}"
                     EventIndicatorColor="{Binding EventIndicatorColor, Source={x:Reference calendar}}"
+                    EventIndicatorTextColor="{Binding EventIndicatorTextColor, Source={x:Reference calendar}}"
                     EventIndicatorSelectedColor="{Binding EventIndicatorSelectedColor, Source={x:Reference calendar}}"
+                    EventIndicatorSelectedTextColor="{Binding EventIndicatorSelectedTextColor, Source={x:Reference calendar}}"
                     DaysTitleColor="{Binding DaysTitleColor, Source={x:Reference calendar}}"
                     SelectedDayTextColor="{Binding SelectedDayTextColor, Source={x:Reference calendar}}"
                     DeselectedDayTextColor="{Binding DeselectedDayTextColor, Source={x:Reference calendar}}"
@@ -53,8 +58,11 @@
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand" >
                         <controls:MonthDaysView.Triggers>
-                            <DataTrigger TargetType="controls:MonthDaysView" Binding="{Binding DisplayType,Source={x:Reference calendar}}" Value="Month">
+                            <DataTrigger TargetType="controls:MonthDaysView" Binding="{Binding DisplayType}" Value="Month">
                                 <Setter Property="IsVisible" Value="True"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="controls:MonthDaysView" Binding="{Binding DisplayType}" Value="Week">
+                                <Setter Property="IsVisible" Value="False"/>
                             </DataTrigger>
                         </controls:MonthDaysView.Triggers>
                     </controls:MonthDaysView>
@@ -96,14 +104,33 @@
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand" >
                         <controls:WeekDaysView.Triggers>
-                            <DataTrigger TargetType="controls:WeekDaysView" Binding="{Binding DisplayType,Source={x:Reference calendar}}" Value="Week">
+                            <DataTrigger TargetType="controls:WeekDaysView" Binding="{Binding DisplayType}" Value="Week">
                                 <Setter Property="IsVisible" Value="True"/>
+                            </DataTrigger>
+                            <DataTrigger TargetType="controls:WeekDaysView" Binding="{Binding DisplayType}" Value="Month">
+                                <Setter Property="IsVisible" Value="False"/>
                             </DataTrigger>
                         </controls:WeekDaysView.Triggers>
                     </controls:WeekDaysView>
                 </StackLayout>
             </controls:SwipeAwareContainer>
+            <Label HorizontalTextAlignment="Center"
+                   FontAttributes="Bold"
+                   FontSize="Medium"
+                   Text="˅">
+                <Label.Triggers>
+                    <DataTrigger Binding="{Binding DisplayType, Source={x:Reference calendar}}"
+                                 TargetType="Label"
+                                 Value="Month">
+                        <Setter Property="Text" Value="˄" />
+                    </DataTrigger>
+                </Label.Triggers>
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SwitchLayoutCommand, Source={x:Reference calendar}}" />
+                </Label.GestureRecognizers>
+            </Label>
         </StackLayout>
+
         <Grid
             Grid.Row="1"
             HorizontalOptions="FillAndExpand"

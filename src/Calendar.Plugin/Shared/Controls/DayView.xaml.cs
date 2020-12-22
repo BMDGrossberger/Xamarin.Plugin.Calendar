@@ -42,7 +42,7 @@ namespace Xamarin.Plugin.Calendar.Controls
         #endregion
 
 
-        internal DayView()
+        public DayView()
         {
             InitializeComponent();
         }

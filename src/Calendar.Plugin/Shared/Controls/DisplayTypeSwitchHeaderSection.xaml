@@ -20,7 +20,7 @@
         <StackLayout Orientation="Horizontal">
             <Label Text="{Binding YearAndMonthText}" HorizontalOptions="StartAndExpand"/>
             <StackLayout Orientation="Horizontal" >
-                <Label Text="今天"/>
+                <Label Text="Today"/>
                 <Label Text="|"/>
                 <StackLayout.Triggers>
                     <DataTrigger TargetType="StackLayout" Binding="{Binding IsToday}" Value="True">
@@ -31,7 +31,7 @@
                     <TapGestureRecognizer Command="{Binding GoToDodayCommand}"/>
                 </StackLayout.GestureRecognizers>
             </StackLayout>
-            <Label Text="周">
+            <Label Text="Week">
                 <Label.Triggers>
                     <DataTrigger TargetType="Label" Binding="{Binding DisplayType}" Value="Week">
                         <Setter Property="Style" Value="{StaticResource Selected}"/>
@@ -42,7 +42,7 @@
                 </Label.GestureRecognizers>
             </Label>
             <Label Text="|"/>
-            <Label Text="月">
+            <Label Text="Month">
                 <Label.Triggers>
                     <DataTrigger TargetType="Label" Binding="{Binding DisplayType}" Value="Month">
                         <Setter Property="Style" Value="{StaticResource Selected}"/>

@@ -10,12 +10,13 @@
     mc:Ignorable="d">
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding TodayCommand}" Text="Today" />
+        <ToolbarItem Command="{Binding SwitchViewCommand}" Text="Switch Layout" />
     </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <local:SimplePageViewModel />
     </ContentPage.BindingContext>
-
-    <plugin:Calendar
+    <StackLayout>
+        <plugin:Calendar
         Padding="10,0"
         Events="{Binding Events}"
         HorizontalOptions="FillAndExpand"
@@ -25,39 +26,45 @@
         SelectedDate="{Binding SelectedDate}"
         VerticalOptions="FillAndExpand"
         Year="{Binding Year}"
-        SelectedDayTextColor="OrangeRed"
-        SelectedDateColor="OrangeRed"
-        TodayOutlineColor="Blue"
-        TodayFillColor="Blue"
-        EventIndicatorSelectedColor="Green"
-        EventIndicatorSelectedTextColor="Green"
+        SelectedDayTextColor="White"
+        SelectedDayBackgroundColor="DarkBlue"
+        TodayOutlineColor="LightBlue"
+        TodayFillColor="LightBlue"
+        EventIndicatorColor="Gray"
+        EventIndicatorSelectedColor="Transparent"
+        EventIndicatorSelectedTextColor="White"
+        DisplayType="{Binding DisplayType}"
         FooterSectionVisible="True"
+        DaysTitleHeight="15"
+        DayViewCornerRadius="5"
+        DisabledDayColor="DarkGray"
         ShowYearPicker="False"
         ShowMonthPicker="True">
 
-        <plugin:Calendar.EventTemplate>
-            <DataTemplate>
-                <StackLayout
+            <plugin:Calendar.EventTemplate>
+                <DataTemplate>
+                    <StackLayout
                     Padding="15,0,0,0"
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="FillAndExpand">
-                    <Label
+                        <Label
                         FontAttributes="Bold"
                         FontSize="Medium"
                         Text="{Binding Name}" />
-                    <Label
+                        <Label
                         FontSize="Small"
                         LineBreakMode="WordWrap"
                         Text="{Binding Description}" />
 
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding BindingContext.EventSelectedCommand, Source={x:Reference simpleCalendarPage}}" CommandParameter="{Binding .}" />
-                    </StackLayout.GestureRecognizers>
-                </StackLayout>
-            </DataTemplate>
-        </plugin:Calendar.EventTemplate>
-    </plugin:Calendar>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BindingContext.EventSelectedCommand, Source={x:Reference simpleCalendarPage}}" CommandParameter="{Binding .}" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </DataTemplate>
+            </plugin:Calendar.EventTemplate>
+        </plugin:Calendar>
 
+    </StackLayout>
     <!--
         Styling
 

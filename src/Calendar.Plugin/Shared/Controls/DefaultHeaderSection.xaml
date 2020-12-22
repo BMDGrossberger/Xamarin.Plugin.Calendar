@@ -22,31 +22,20 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Frame
-                Grid.Column="0"
-                Padding="0"
-                BackgroundColor="White"
-                CornerRadius="18"
-                HasShadow="True"
-                HeightRequest="36"
-                HorizontalOptions="CenterAndExpand"
-                VerticalOptions="CenterAndExpand"
-                WidthRequest="36">
-                <Label
+            <Label Grid.Column="0"
                     FontAttributes="Bold"
                     FontSize="Medium"
-                    HorizontalOptions="CenterAndExpand"
+                    HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Center"
-                    InputTransparent="True"
-                    Text="←"
+                    Text="˂"
                     TextColor="{Binding ArrowsColor}"
                     VerticalOptions="CenterAndExpand"
-                    VerticalTextAlignment="Center" />
+                    VerticalTextAlignment="Center" >
 
-                <Frame.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding PrevMonthCommand}" />
-                </Frame.GestureRecognizers>
-            </Frame>
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding PrevMonthCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
 
             <Label
                 Grid.Column="1"
@@ -57,31 +46,21 @@
                 TextColor="{Binding MonthLabelColor}"
                 VerticalOptions="Center" />
 
-            <Frame
-                Grid.Column="2"
-                Padding="0"
-                BackgroundColor="White"
-                CornerRadius="18"
-                HasShadow="True"
-                HeightRequest="36"
-                HorizontalOptions="CenterAndExpand"
-                VerticalOptions="CenterAndExpand"
-                WidthRequest="36">
-                <Label
+            <Label
+                    Grid.Column="2"
                     FontAttributes="Bold"
                     FontSize="Medium"
-                    HorizontalOptions="CenterAndExpand"
+                    HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Center"
-                    InputTransparent="True"
-                    Text="→"
+                    Text="˃"
                     TextColor="{Binding ArrowsColor}"
                     VerticalOptions="CenterAndExpand"
-                    VerticalTextAlignment="Center" />
+                    VerticalTextAlignment="Center" >
 
-                <Frame.GestureRecognizers>
+                <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding NextMonthCommand}" />
-                </Frame.GestureRecognizers>
-            </Frame>
+                </Label.GestureRecognizers>
+            </Label>
         </Grid>
 
         <Grid

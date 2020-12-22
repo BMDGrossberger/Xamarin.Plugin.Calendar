@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using SampleApp.Model;
 using System.Globalization;
+using static Xamarin.Plugin.Calendar.Controls.Calendar;
 
 namespace SampleApp.ViewModels
 {
@@ -16,6 +17,15 @@ namespace SampleApp.ViewModels
     {
         public ICommand TodayCommand => new Command(() => { Year = DateTime.Today.Year; Month = DateTime.Today.Month; SelectedDate = DateTime.Today;});
         public ICommand EventSelectedCommand => new Command(async (item) => await ExecuteEventSelectedCommand(item));
+        public ICommand SwitchViewCommand => new Command(() => {
+            if (DisplayType == DisplayMode.Month)
+            {
+                DisplayType = DisplayMode.Week;
+            }  else
+            {
+                DisplayType = DisplayMode.Month;
+            }
+        });
         private CultureInfo _culture = CultureInfo.CurrentCulture;
 
         public SimplePageViewModel() : base()
@@ -108,6 +118,13 @@ namespace SampleApp.ViewModels
         {
             get => _maximumDate;
             set => SetProperty(ref _maximumDate, value);
+        }
+
+        private DisplayMode _DisplayType = DisplayMode.Week;
+        public DisplayMode DisplayType
+        {
+            get => _DisplayType;
+            set => SetProperty(ref _DisplayType, value);
         }
 
         private async Task ExecuteEventSelectedCommand(object item)

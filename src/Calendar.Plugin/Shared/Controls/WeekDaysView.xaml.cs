@@ -364,7 +364,7 @@ namespace Xamarin.Plugin.Calendar.Controls
             switch (propertyName)
             {
                 case nameof(SelectedDate):
-                    //UpdateSelectedDate();
+                    UpdateSelectedDate();
                     UpdateDays();
                     break;
 
@@ -386,10 +386,16 @@ namespace Xamarin.Plugin.Calendar.Controls
                 case nameof(EventIndicatorSelectedColor):
                 case nameof(TodayOutlineColor):
                 case nameof(TodayFillColor):
+                case nameof(DisabledDayColor):
                     UpdateDaysColors();
                     break;
 
                 case nameof(Culture):
+                    UpdateDayTitles();
+                    UpdateDays();
+                    break;
+
+                case nameof(IsVisible):
                     UpdateDayTitles();
                     UpdateDays();
                     break;
@@ -437,10 +443,9 @@ namespace Xamarin.Plugin.Calendar.Controls
                 dayModel.OtherMonthColor = OtherMonthDayColor;
                 dayModel.DeselectedTextColor = DeselectedDayTextColor;
                 dayModel.SelectedBackgroundColor = SelectedDayBackgroundColor;
-                dayModel.EventIndicatorColor = EventIndicatorColor;
-                dayModel.EventIndicatorSelectedColor = EventIndicatorSelectedColor;
                 dayModel.TodayOutlineColor = TodayOutlineColor;
                 dayModel.TodayFillColor = TodayFillColor;
+                dayModel.DisabledColor = DisabledDayColor;
 
                 AssignIndicatorColors(ref dayModel);
             }
@@ -454,10 +459,10 @@ namespace Xamarin.Plugin.Calendar.Controls
             _selectedDay = _dayViews.Select(x => x.BindingContext as DayModel)
                                     .FirstOrDefault(x => x.Date == SelectedDate.Date);
 
-            if (_selectedDay == null || !_selectedDay.IsThisMonth)
+            if (_selectedDay == null )
             {
-                Year = SelectedDate.Date.Year;
-                Month = SelectedDate.Date.Month;
+                Week = 1;
+                DisplayedMonthYear = SelectedDate.Date;
                 return;
             }
 
@@ -565,6 +570,10 @@ namespace Xamarin.Plugin.Calendar.Controls
                 var dayModel = dayView.BindingContext as DayModel;
 
                 dayModel.Date = currentDate.Date;
+                dayModel.DayViewSize = DayViewSize;
+                dayModel.DayViewCornerRadius = DayViewCornerRadius;
+                dayModel.DaysLabelStyle = DaysLabelStyle;
+                dayModel.EventIndicatorType = EventIndicatorType;
                 dayModel.IsThisMonth = currentDate.Month == Month;
                 dayModel.IsSelected = currentDate == SelectedDate.Date;
                 dayModel.HasEvents = Events.ContainsKey(currentDate) || (MarkDates.Find(x => x.Date == currentDate.Date) != DateTime.MinValue);

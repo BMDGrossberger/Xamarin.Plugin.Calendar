@@ -28,7 +28,7 @@ namespace Xamarin.Plugin.Calendar.Controls
         }
 
         public static readonly BindableProperty DisplayTypeProperty =
-         BindableProperty.Create(nameof(ShowMonthPicker), typeof(DisplayMode), typeof(Calendar), DisplayMode.Week);
+         BindableProperty.Create(nameof(DisplayTypeProperty), typeof(DisplayMode), typeof(Calendar), DisplayMode.Week, BindingMode.TwoWay);
 
         public DisplayMode DisplayType
         {
@@ -57,6 +57,7 @@ namespace Xamarin.Plugin.Calendar.Controls
         public static readonly BindableProperty WeekProperty =
          BindableProperty.Create(nameof(Week), typeof(int), typeof(Calendar), 1, BindingMode.TwoWay);
 
+        //Week-Offset of MonthYear
         public int Week
         {
             get => (int)GetValue(WeekProperty);
@@ -484,6 +485,28 @@ namespace Xamarin.Plugin.Calendar.Controls
             set => SetValue(SwipeUpToHideEnabledProperty, value);
         }
 
+        /// <summary> Bindable property for SwipeDownCommand </summary>
+        public static readonly BindableProperty SwipeDownCommandProperty =
+          BindableProperty.Create(nameof(SwipeDownCommand), typeof(ICommand), typeof(Calendar), null);
+
+        /// <summary> Activated when user swipes-down over days view </summary>
+        public ICommand SwipeDownCommand
+        {
+            get => (ICommand)GetValue(SwipeDownCommandProperty);
+            set => SetValue(SwipeDownCommandProperty, value);
+        }
+
+        /// <summary> Bindable property for SwipeDownToShowEnabled </summary>
+        public static readonly BindableProperty SwipeDownToShowEnabledProperty =
+          BindableProperty.Create(nameof(SwipeDownToShowEnabled), typeof(bool), typeof(Calendar), true);
+
+        /// <summary> Enable/disable default swipe-down action for showing/hiding calendar </summary>
+        public bool SwipeDownToShowEnabled
+        {
+            get => (bool)GetValue(SwipeDownToShowEnabledProperty);
+            set => SetValue(SwipeDownToShowEnabledProperty, value);
+        }
+
         /// <summary> Bindable property for SwipeLeftCommand </summary>
         public static readonly BindableProperty SwipeLeftCommandProperty =
           BindableProperty.Create(nameof(SwipeLeftCommand), typeof(ICommand), typeof(Calendar), null);
@@ -591,14 +614,45 @@ namespace Xamarin.Plugin.Calendar.Controls
         /// </summary>
         public Calendar()
         {
-            PrevMonthCommand = new Command(PrevMonth);
-            NextMonthCommand = new Command(NextMonth);
+            PrevMonthCommand = new Command(() => 
+            {
+                if (DisplayType == DisplayMode.Month)
+                {
+                    PrevMonth();
+                }
+                else
+                {
+                    PrevWeek();
+                }
+            });
+            NextMonthCommand = new Command(() => 
+            {
+                if (DisplayType == DisplayMode.Month)
+                {
+                    NextMonth();
+                }
+                else
+                {
+                    NextWeek();
+                }
+            });
             PrevYearCommand = new Command(PrevYear);
             NextYearCommand = new Command(NextYear);
             ShowHideCalendarCommand = new Command(ToggleCalendarSectionVisibility);
             GoToDodayCommand = new Command(GoToToday);
             SwitchToMonthCommand = new Command(SwitchToMonth);
             SwitchToWeekCommand = new Command(SwitchToWeek);
+            SwitchLayoutCommand = new Command(() =>
+            {
+                if (DisplayType == DisplayMode.Month)
+                {
+                    SwitchToWeek();
+                }
+                else
+                {
+                    SwitchToMonth();
+                }
+            });
             InitializeComponent();
             UpdateSelectedDateLabel();
             UpdateMonthLabel();
@@ -644,6 +698,8 @@ namespace Xamarin.Plugin.Calendar.Controls
         public ICommand GoToDodayCommand { get; }
         public ICommand SwitchToWeekCommand { get; }
         public ICommand SwitchToMonthCommand { get; }
+        public ICommand SwitchLayoutCommand { get; }
+        
 
 
 
@@ -731,6 +787,7 @@ namespace Xamarin.Plugin.Calendar.Controls
                     break;
 
                 case nameof(SelectedDate):
+                    UpdateMonthLabel();
                     UpdateSelectedDateLabel();
                     UpdateEvents();
                     OnPropertyChanged(nameof(IsToday));
@@ -746,6 +803,10 @@ namespace Xamarin.Plugin.Calendar.Controls
                 case nameof(CalendarSectionShown):
                     ShowHideCalendarSection();
                     break;
+
+                case nameof(DisplayType):
+                    UpdateMonthLabel();
+                    break;                    
             }
         }
 
@@ -762,7 +823,22 @@ namespace Xamarin.Plugin.Calendar.Controls
 
         private void UpdateMonthLabel()
         {
-            MonthText = Culture.DateTimeFormat.MonthNames[MonthYear.Month - 1].Capitalize();
+            if (DisplayType == DisplayMode.Month)
+            {
+                MonthText = Culture.DateTimeFormat.MonthNames[MonthYear.Month - 1].Capitalize();
+            } else
+            {
+                int kW = GetWeekNumber(MonthYear);
+                MonthText = String.Format("KW {0} / ", kW) + Culture.DateTimeFormat.MonthNames[MonthYear.Month - 1].Capitalize();
+            }
+        }
+
+        private static int GetWeekNumber(DateTime selDate)
+        {
+            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
+            System.Globalization.Calendar cal = dfi.Calendar;
+            var kW = cal.GetWeekOfYear(selDate, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+            return kW;
         }
 
         private void UpdateSelectedDateLabel()
@@ -850,7 +926,15 @@ namespace Xamarin.Plugin.Calendar.Controls
             SwipeUpCommand?.Execute(null);
 
             if (SwipeUpToHideEnabled)
-                ToggleCalendarSectionVisibility();
+                SwitchToWeek();
+        }
+
+        private void OnSwipedDown(object sender, EventArgs e)
+        {
+            SwipeDownCommand?.Execute(null);
+
+            if (SwipeDownToShowEnabled)
+                SwitchToMonth();
         }
 
         #endregion
@@ -859,11 +943,13 @@ namespace Xamarin.Plugin.Calendar.Controls
         private void PrevWeek()
         {
             --Week;
+            MonthYear = MonthYear.AddDays(-7);
         }
 
         private void NextWeek()
         {
             ++Week;
+            MonthYear = MonthYear.AddDays(7);
         }
 
         private void ChangeDisplayedMonth(int monthsToAdd)
@@ -902,7 +988,7 @@ namespace Xamarin.Plugin.Calendar.Controls
 
         private void NextYear() => ChangeDisplayedYear(1);
 
-        private void GoToToday()
+        private void GoToToday() 
         {
             Week = 1;
             Year = DateTime.Now.Year;
@@ -912,17 +998,17 @@ namespace Xamarin.Plugin.Calendar.Controls
             OnPropertyChanged(nameof(WeekStartDate));
         }
 
-        private void SwitchToWeek()
+        private void SwitchToWeek() 
         {
             DisplayType = DisplayMode.Week;
             Week = 1;
-            WeekStartDate = new DateTime(Year, Month, 1);
+            WeekStartDate = SelectedDate;
             OnPropertyChanged(nameof(DisplayType));
             OnPropertyChanged(nameof(Week));
             OnPropertyChanged(nameof(WeekStartDate));
         }
 
-        private void SwitchToMonth()
+        private void SwitchToMonth() 
         {
             DisplayType = DisplayMode.Month;
             OnPropertyChanged(nameof(DisplayType));
