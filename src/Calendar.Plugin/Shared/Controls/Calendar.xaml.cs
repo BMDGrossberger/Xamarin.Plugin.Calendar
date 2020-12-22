@@ -599,6 +599,16 @@ namespace Xamarin.Plugin.Calendar.Controls
             set => SetValue(AnimateCalendarProperty, value);
         }
 
+
+        public static readonly BindableProperty CalenderWeekAbbrProperty =
+            BindableProperty.Create(nameof(CalenderWeekAbbr), typeof(string), typeof(Calendar), "KW");
+
+        public string CalenderWeekAbbr
+        {
+            get => (string)GetValue(CalenderWeekAbbrProperty);
+            set => SetValue(CalenderWeekAbbrProperty, value);
+        }
+
         #endregion
 
         private const uint CalendarSectionAnimationRate = 16;
@@ -829,7 +839,7 @@ namespace Xamarin.Plugin.Calendar.Controls
             } else
             {
                 int kW = GetWeekNumber(MonthYear);
-                MonthText = String.Format("KW {0} / ", kW) + Culture.DateTimeFormat.MonthNames[MonthYear.Month - 1].Capitalize();
+                MonthText = String.Format("{0} {1} / ", CalenderWeekAbbr, kW) + Culture.DateTimeFormat.MonthNames[MonthYear.Month - 1].Capitalize();
             }
         }
 
