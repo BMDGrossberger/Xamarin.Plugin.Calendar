@@ -55,7 +55,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1269" />
+    <None Remove="Shared\SvgIcons\chevron-back.svg" />
+    <None Remove="Shared\SvgIcons\chevron-down.svg" />
+    <None Remove="Shared\SvgIcons\chevron-forward.svg" />
+    <None Remove="Shared\SvgIcons\chevron-up.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Shared\SvgIcons\chevron-back.svg" />
+    <EmbeddedResource Include="Shared\SvgIcons\chevron-down.svg" />
+    <EmbeddedResource Include="Shared\SvgIcons\chevron-forward.svg" />
+    <EmbeddedResource Include="Shared\SvgIcons\chevron-up.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp" Version="2.80.2" />
+    <PackageReference Include="SkiaSharp.Extended" Version="1.60.0" />
+    <PackageReference Include="SkiaSharp.Svg" Version="1.60.0" />
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.2" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1821" />
   </ItemGroup>
 
   <ItemGroup>
@@ -113,4 +131,8 @@
   </ItemGroup>
 
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+
+  <ItemGroup>
+    <None Remove="Shared\Controls\SvgIcon.cs" />
+  </ItemGroup>
 </Project>

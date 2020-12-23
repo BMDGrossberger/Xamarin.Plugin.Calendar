@@ -2,7 +2,8 @@
 <ContentView
     x:Class="Xamarin.Plugin.Calendar.Controls.DefaultHeaderSection"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Xamarin.Plugin.Calendar.Controls">
 
     <!--  TODO: Controls for circle buttons  -->
     <StackLayout
@@ -21,21 +22,17 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            
+            <controls:SvgIcon IconColor="{Binding ArrowsColor}"
+                              HorizontalOptions="FillAndExpand"
+                              HeightRequest="15"
+                              Grid.Column="0"
+                              IconFilePath="Xamarin.Plugin.Calendar.Shared.SvgIcons.chevron-back.svg">
 
-            <Label Grid.Column="0"
-                    FontAttributes="Bold"
-                    FontSize="Medium"
-                    HorizontalOptions="FillAndExpand"
-                    HorizontalTextAlignment="Center"
-                    Text="˂"
-                    TextColor="{Binding ArrowsColor}"
-                    VerticalOptions="CenterAndExpand"
-                    VerticalTextAlignment="Center" >
-
-                <Label.GestureRecognizers>
+                <controls:SvgIcon.GestureRecognizers>
                     <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding PrevMonthCommand}" />
-                </Label.GestureRecognizers>
-            </Label>
+                </controls:SvgIcon.GestureRecognizers>
+            </controls:SvgIcon>
 
             <Label
                 Grid.Column="1"
@@ -46,21 +43,17 @@
                 TextColor="{Binding MonthLabelColor}"
                 VerticalOptions="Center" />
 
-            <Label
-                    Grid.Column="2"
-                    FontAttributes="Bold"
-                    FontSize="Medium"
-                    HorizontalOptions="FillAndExpand"
-                    HorizontalTextAlignment="Center"
-                    Text="˃"
-                    TextColor="{Binding ArrowsColor}"
-                    VerticalOptions="CenterAndExpand"
-                    VerticalTextAlignment="Center" >
+            <controls:SvgIcon IconColor="{Binding ArrowsColor}"
+                              HorizontalOptions="FillAndExpand"
+                              HeightRequest="15"
+                              Grid.Column="2"
+                              IconFilePath="Xamarin.Plugin.Calendar.Shared.SvgIcons.chevron-forward.svg">
 
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding NextMonthCommand}" />
-                </Label.GestureRecognizers>
-            </Label>
+                <controls:SvgIcon.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding NextMonthCommand}" />
+                </controls:SvgIcon.GestureRecognizers>
+            </controls:SvgIcon>
+
         </Grid>
 
         <Grid

@@ -114,21 +114,25 @@
                     </controls:WeekDaysView>
                 </StackLayout>
             </controls:SwipeAwareContainer>
-            <Label HorizontalTextAlignment="Center"
-                   FontAttributes="Bold"
-                   FontSize="Medium"
-                   Text="˅">
-                <Label.Triggers>
-                    <DataTrigger Binding="{Binding DisplayType, Source={x:Reference calendar}}"
-                                 TargetType="Label"
+
+            <controls:SvgIcon IconColor="{Binding ArrowsColor, Source={x:Reference calendar}}"
+                              HorizontalOptions="FillAndExpand"
+                              HeightRequest="30"
+                              Grid.Column="2"
+                              IconFilePath="Xamarin.Plugin.Calendar.Shared.SvgIcons.chevron-down.svg">
+
+                <controls:SvgIcon.Triggers>
+                    <DataTrigger Binding="{Binding DisplayType, Source={x:Reference calendar}}" 
+                                 TargetType="controls:SvgIcon"
                                  Value="Month">
-                        <Setter Property="Text" Value="˄" />
+                        <Setter Property="IconFilePath" Value="Xamarin.Plugin.Calendar.Shared.SvgIcons.chevron-up.svg" />
                     </DataTrigger>
-                </Label.Triggers>
-                <Label.GestureRecognizers>
+                </controls:SvgIcon.Triggers>
+                <controls:SvgIcon.GestureRecognizers>
                     <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding SwitchLayoutCommand, Source={x:Reference calendar}}" />
-                </Label.GestureRecognizers>
-            </Label>
+                </controls:SvgIcon.GestureRecognizers>
+            </controls:SvgIcon>
+
         </StackLayout>
 
         <Grid

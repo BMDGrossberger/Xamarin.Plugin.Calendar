@@ -357,6 +357,9 @@ namespace Xamarin.Plugin.Calendar.Controls
         {
             base.OnPropertyChanged(propertyName);
 
+            if (!IsVisible)
+                return;
+
             if (_propertyChangedNotificationSupressions.TryGetValue(propertyName, out bool isSuppressed)
                 && isSuppressed)
                 return;
