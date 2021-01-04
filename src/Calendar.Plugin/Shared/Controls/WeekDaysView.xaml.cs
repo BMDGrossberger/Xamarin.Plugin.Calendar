@@ -399,6 +399,7 @@ namespace Xamarin.Plugin.Calendar.Controls
                     break;
 
                 case nameof(IsVisible):
+                    UpdateDaysColors();
                     UpdateDayTitles();
                     UpdateDays();
                     break;

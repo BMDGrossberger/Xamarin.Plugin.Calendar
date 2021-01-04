@@ -406,6 +406,10 @@ namespace Xamarin.Plugin.Calendar.Controls
                 case nameof(DaysTitleMaximumLength):
                     UpdateDayTitles();
                     break;
+
+                case nameof(IsVisible):
+                    UpdateDaysColors();
+                    break;
             }
         }
 
