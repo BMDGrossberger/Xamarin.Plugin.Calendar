@@ -191,7 +191,7 @@ namespace Xamarin.Plugin.Calendar.Controls
         }
 
         public static readonly BindableProperty DaysTitleHeightProperty =
-          BindableProperty.Create(nameof(DaysTitleHeight), typeof(double), typeof(WeekDaysView), 30.0);
+          BindableProperty.Create(nameof(DaysTitleHeight), typeof(double), typeof(WeekDaysView), -1.0);
 
         public double DaysTitleHeight
         {
@@ -467,6 +467,7 @@ namespace Xamarin.Plugin.Calendar.Controls
             {
                 Week = 1;
                 DisplayedMonthYear = SelectedDate.Date;
+                WeekStartDate = GetWeekFirstDay(SelectedDate);
                 return;
             }
 

@@ -31,7 +31,6 @@
         EventIndicatorSelectedTextColor="White"
         DisplayType="{Binding DisplayType}"
         FooterSectionVisible="False"
-        DaysTitleHeight="15"
         DayViewCornerRadius="5"
         DisabledDayColor="DarkGray"
         ShowYearPicker="False"

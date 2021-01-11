@@ -221,7 +221,7 @@ namespace Xamarin.Plugin.Calendar.Controls
 
         /// <summary> Bindable property for DaysTitleHeight </summary>
         public static readonly BindableProperty DaysTitleHeightProperty =
-          BindableProperty.Create(nameof(DaysTitleHeight), typeof(double), typeof(MonthDaysView), 30.0);
+          BindableProperty.Create(nameof(DaysTitleHeight), typeof(double), typeof(MonthDaysView), -1.0);
 
         public double DaysTitleHeight
         {
@@ -408,7 +408,9 @@ namespace Xamarin.Plugin.Calendar.Controls
                     break;
 
                 case nameof(IsVisible):
+                    UpdateDayTitles();
                     UpdateDaysColors();
+                    UpdateDays(AnimateCalendar);
                     break;
             }
         }

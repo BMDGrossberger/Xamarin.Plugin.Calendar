@@ -422,7 +422,7 @@ namespace Xamarin.Plugin.Calendar.Controls
         }
 
         public static readonly BindableProperty DaysTitleHeightProperty =
-          BindableProperty.Create(nameof(DaysTitleHeight), typeof(double), typeof(Calendar), 30.0);
+          BindableProperty.Create(nameof(DaysTitleHeight), typeof(double), typeof(Calendar), -1.0);
 
         public double DaysTitleHeight
         {
